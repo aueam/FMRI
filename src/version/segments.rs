@@ -39,12 +39,10 @@ impl Segments {
     /// );
     /// ```
     pub fn get_segment_from_string(mut string: String, segment_starts_with: char) -> Self {
-        let mut end: String = "".to_owned();
-
-        match string.find(segment_starts_with) {
+        let mut end = match string.find(segment_starts_with) {
             None => return Self::None,
             Some(position) => {
-                end = string.split_off(position + 1);
+                string.split_off(position + 1)
             }
         };
 
