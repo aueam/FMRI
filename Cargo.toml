@@ -6,6 +6,7 @@ edition = "2021"
 description = "Implementation of IPS package identifier - FMRI"
 readme = "./README.md"
 license = "MIT"
+repository = "https://github.com/aueam/FMRI"
 keywords = ["fmri", "pkg", "lib"]
 
 [dependencies]
