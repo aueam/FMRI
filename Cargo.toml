@@ -1,0 +1,12 @@
+[package]
+name = "fmri"
+version = "0.1.0"
+authors = ["Maroš Telka <maros@telka.sk>"]
+edition = "2021"
+description = "Implementation of IPS package identifier - FMRI"
+readme = "./README.md"
+license = "MIT"
+keywords = ["fmri", "pkg", "lib"]
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
