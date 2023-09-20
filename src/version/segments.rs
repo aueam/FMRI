@@ -59,15 +59,13 @@ impl Segments {
             }
         }
 
-        match segment_starts_with {
-            '@' => return Self::ComponentVersion(Segment::from_string(end.clone())),
-            ',' => return Self::BuildVersion(Segment::from_string(end.clone())),
-            '-' => return Self::BranchVersion(Segment::from_string(end.clone())),
-            ':' => return Self::Timestamp(end.clone()),
-            _ => {}
+        return match segment_starts_with {
+            '@' => Self::ComponentVersion(Segment::from_string(end.clone())),
+            ',' => Self::BuildVersion(Segment::from_string(end.clone())),
+            '-' => Self::BranchVersion(Segment::from_string(end.clone())),
+            ':' => Self::Timestamp(end.clone()),
+            _ => Self::None
         }
-
-        Self::None
     }
 }
 
