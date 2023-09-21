@@ -1,11 +1,12 @@
 [package]
 name = "fmri"
 version = "0.1.0"
-authors = ["Maroš Telka <maros@telka.sk>"]
 edition = "2021"
+authors = ["Maroš Telka <maros@telka.sk>"]
 description = "Implementation of IPS package identifier - FMRI"
-readme = "./README.md"
+readme = "README.md"
 license = "MIT"
+license-file = "LICENSE.md"
 repository = "https://github.com/aueam/FMRI"
 keywords = ["fmri", "pkg", "lib"]
 
