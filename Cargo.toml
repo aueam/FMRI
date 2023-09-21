@@ -6,7 +6,6 @@ authors = ["Maroš Telka <maros@telka.sk>"]
 description = "Implementation of IPS package identifier - FMRI"
 readme = "README.md"
 license = "MIT"
-license-file = "LICENSE.md"
 repository = "https://github.com/aueam/FMRI"
 keywords = ["fmri", "pkg", "lib"]
 
