@@ -16,7 +16,8 @@ use crate::helpers::{check_character_collision, remove_first_and_last_characters
 pub use self::{
     compare::Compare,
     version::Version,
-    publisher::Publisher
+    publisher::Publisher,
+    fmri_list::FMRIList
 };
 
 /// [`FMRI`] represents pkg fmri versioning system
