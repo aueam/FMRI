@@ -3,6 +3,7 @@ pub mod publisher;
 pub mod compare;
 pub mod fmri_list;
 mod helpers;
+#[cfg(test)]
 mod tests;
 
 
