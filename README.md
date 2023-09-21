@@ -34,11 +34,11 @@ fn main() {
     // get package name from fmri
     assert_eq!(fmri.get_package_name_as_string(), "system/library");
 
-    // compare two FMRIs
+    // prepare two FMRIs
     let fmri_a = FMRI::parse_raw(&"test@1".to_owned());
     let fmri_b = FMRI::parse_raw(&"test@2".to_owned());
 
-    // fmri_a is older than fmri_b
+    // compare them (fmri_a is older than fmri_b)
     assert_eq!(fmri_a.compare(&fmri_b), Ordering::Less)
 }
 ```
