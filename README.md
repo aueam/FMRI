@@ -43,6 +43,9 @@ fn main() {
     let fmri_b = FMRI::parse_raw(&"test@2".to_owned());
 
     // compare them (fmri_a is older than fmri_b)
-    assert_eq!(fmri_a.compare(&fmri_b), Ordering::Less)
+    assert_eq!(fmri_a.compare(&fmri_b), Ordering::Less);
+
+    // print version of fmri_b
+    assert_eq!(fmri_b.get_version(), Some(Version::new("2".to_owned())));
 }
 ```
