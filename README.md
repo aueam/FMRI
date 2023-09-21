@@ -3,6 +3,9 @@
 Implementation of IPS package identifier - FMRI.
 Provides FMRI, Publisher, Version types and version comparing.
 
+Check out the changelog on [GitHub](https://github.com/aueam/FMRI/releases)<br>
+Documentation is [here](https://docs.rs/fmri/latest/fmri/)
+
 ## Example
 
 This example shows some of the functionality of this library.
