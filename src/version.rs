@@ -7,6 +7,7 @@ use std::{
 };
 use serde::{Deserialize, Serialize};
 use crate::{
+    FMRI,
     compare::Compare,
     version::segments::Segments
 };

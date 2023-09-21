@@ -5,7 +5,8 @@ use std::{
 use serde::{Deserialize, Serialize};
 use crate::{
     FMRI,
-    compare::Compare
+    compare::Compare,
+    version::Version
 };
 
 /// [`Segment`] is a part of [`Version`] in [`FMRI`]
@@ -54,17 +55,17 @@ impl Segment {
         string.clone()
     }
 
-    /// Returns [`Segment`] as [Vec]<i32>
+    /// Returns [`Segment`] as [Vec]<[i32]>
     pub fn get(self) -> Vec<i32> {
         self.0
     }
 
-    /// Returns [`Segment`] as &[Vec]<i32>
+    /// Returns [`Segment`] as &[Vec]<[`i32`]>
     pub fn get_ref(&self) -> &Vec<i32> {
         &self.0
     }
 
-    /// Returns [`Segment`] as &mut [Vec]<i32>
+    /// Returns [`Segment`] as &mut [Vec]<[`i32`]>
     pub fn get_ref_mut(&mut self) -> &mut Vec<i32> {
         &mut self.0
     }
