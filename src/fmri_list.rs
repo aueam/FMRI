@@ -57,12 +57,29 @@ impl FMRIList {
 }
 
 /// Implementation of [`Display`] for [`FMRIList`]
+///
+/// # Example
+///
+/// ```rust
+/// use fmri::{FMRI, FMRIList};
+/// let mut  fmri_list = FMRIList::new();
+/// fmri_list.add(FMRI::parse_raw(&"test".to_owned()));
+/// fmri_list.add(FMRI::parse_raw(&"abc".to_owned()));
+/// fmri_list.add(FMRI::parse_raw(&"fmri".to_owned()));
+/// assert_eq!(format!("{}", fmri_list), "pkg:/test, pkg:/abc, pkg:/fmri");
+/// ```
 impl Display for FMRIList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut string: String = "".to_owned();
 
-        for (index, fmri) in self.get_ref().iter().enumerate() {
-            string.push_str(&*format!("{}. {}\n", index, fmri))
+        let fmris = self.get_ref();
+        let len = fmris.len() - 1;
+        for (index, fmri) in fmris.iter().enumerate() {
+            string.push_str(&*format!("{}", fmri));
+
+            if index < len {
+                string.push_str(", ");
+            }
         }
 
         write!(f, "{}", string)
