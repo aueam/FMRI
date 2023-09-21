@@ -1,6 +1,7 @@
 # FMRI
 
-Implementation of IPS package identifier - FMRI. Provides FMRI, Publisher and Version types.
+Implementation of IPS package identifier - FMRI.
+Provides FMRI, Publisher, Version types and version comparing.
 
 ## Example
 
