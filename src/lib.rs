@@ -6,7 +6,6 @@ mod helpers;
 #[cfg(test)]
 mod tests;
 
-
 use std::{
     cmp::Ordering,
     fmt::{Debug, Display, Formatter}
@@ -133,6 +132,21 @@ impl FMRI {
         &mut self.package_name
     }
 
+    /// Returns [`Publisher`] of [`FMRI`] as [`Publisher`]
+    pub fn get_publisher(self) -> Option<Publisher> {
+        self.publisher
+    }
+
+    /// Returns [`Publisher`] of [`FMRI`] as &[`Publisher`]
+    pub fn get_publisher_ref(&self) -> &Option<Publisher> {
+        &self.publisher
+    }
+
+    /// Returns [`Publisher`] of [`FMRI`] as &mut [`Publisher`]
+    pub fn get_publisher_ref_mut(&mut self) -> &mut Option<Publisher> {
+        &mut self.publisher
+    }
+
     /// Checks if [`FMRI`] has [`Publisher`]
     pub fn has_publisher(&self) -> bool {
         if self.publisher == None {
@@ -157,6 +171,21 @@ impl FMRI {
     /// Removes [`Publisher`] from [`FMRI`]
     pub fn remove_publisher(&mut self) {
         self.publisher = None
+    }
+
+    /// Returns [`Version`] of [`FMRI`] as [`Version`]
+    pub fn get_version(self) -> Option<Version> {
+        self.version
+    }
+
+    /// Returns [`Version`] of [`FMRI`] as &[`Version`]
+    pub fn get_version_ref(&self) -> &Option<Version> {
+        &self.version
+    }
+
+    /// Returns [`Version`] of [`FMRI`] as &mut [`Version`]
+    pub fn get_version_ref_mut(&mut self) -> &mut Option<Version> {
+        &mut self.version
     }
 
     /// Checks if [`FMRI`] has [`Version`]
