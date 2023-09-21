@@ -46,7 +46,7 @@ impl FMRIList {
     }
 
     /// Checks if [`FMRIList`] has specified [`FMRI`]
-    pub fn is_fmri_in_list(&self, checking_fmri: &FMRI) -> bool {
+    pub fn contains(&self, checking_fmri: &FMRI) -> bool {
         for fmri in self.get_ref() {
             if fmri.package_name_eq(checking_fmri) {
                 return true;
