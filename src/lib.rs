@@ -1,8 +1,10 @@
 pub mod version;
 pub mod publisher;
 pub mod compare;
+pub mod fmri_list;
 mod helpers;
 mod tests;
+
 
 use std::{
     cmp::Ordering,
