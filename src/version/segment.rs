@@ -40,7 +40,7 @@ impl Segment {
         )
     }
 
-    /// Returns [`Segment`] as [`String`] ("1.2.3")
+    /// Returns [`Segment`] as [String] ("1.2.3")
     pub fn as_string(&self) -> String {
         let mut string: &mut String = &mut "".to_owned();
 
@@ -60,12 +60,12 @@ impl Segment {
         self.0
     }
 
-    /// Returns [`Segment`] as &[Vec]<[`i32`]>
+    /// Returns [`Segment`] as &[Vec]<[i32]>
     pub fn get_ref(&self) -> &Vec<i32> {
         &self.0
     }
 
-    /// Returns [`Segment`] as &mut [Vec]<[`i32`]>
+    /// Returns [`Segment`] as &mut [Vec]<[i32]>
     pub fn get_ref_mut(&mut self) -> &mut Vec<i32> {
         &mut self.0
     }

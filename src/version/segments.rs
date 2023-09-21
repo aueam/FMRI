@@ -31,7 +31,7 @@ pub enum Segments {
 }
 
 impl Segments {
-    /// Separates [`Segment`] from from inputted [`String`]
+    /// Separates [`Segment`] from from inputted [String]
     ///
     /// # Example
     ///

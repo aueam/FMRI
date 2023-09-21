@@ -118,17 +118,17 @@ impl FMRI {
         false
     }
 
-    /// Returns [`FMRI`] as [`String`]
+    /// Returns [`FMRI`] as [String]
     pub fn get_package_name_as_string(self) -> String {
         self.package_name
     }
 
-    /// Returns [`FMRI`] as &[`String`]
+    /// Returns [`FMRI`] as &[String]
     pub fn get_package_name_as_ref_string(&self) -> &String {
         &self.package_name
     }
 
-    /// Returns [`FMRI`] as &mut [`String`]
+    /// Returns [`FMRI`] as &mut [String]
     pub fn get_package_name_as_ref_mut_string(&mut self) -> &mut String {
         &mut self.package_name
     }
@@ -146,7 +146,7 @@ impl FMRI {
         self.publisher = Some(publisher);
     }
 
-    /// Returns [`Publisher`] as [`Option`]<&[`String`]>, returns [`None`] if there isn't [`Publisher`]
+    /// Returns [`Publisher`] as [`Option`]<&[String]>, returns [`None`] if there isn't [`Publisher`]
     pub fn get_publisher_as_ref_string(&self) -> Option<&String> {
         if let Some(publisher) = &self.publisher {
             return Some(publisher.get_as_ref_string());
@@ -172,7 +172,7 @@ impl FMRI {
         self.version = Some(version)
     }
 
-    /// Returns [`Version`] as [`Option`]<&[`String`]>, returns [`None`] if there isn't [`Version`]
+    /// Returns [`Version`] as [`Option`]<&[String]>, returns [`None`] if there isn't [`Version`]
     pub fn get_version_as_string(&self) -> Option<String> {
         if let Some(version) = &self.version {
             return Some(format!("{}", version));

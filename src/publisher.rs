@@ -24,7 +24,7 @@ use crate::{
 pub struct Publisher(String);
 
 impl Publisher {
-    /// Returns [`Publisher`] from [`String`]
+    /// Returns [`Publisher`] from [String]
     pub fn new(mut publisher: String) -> Self {
         check_character_collision(&publisher);
         publisher = remove_first_and_last_characters(&publisher, '/').to_owned();
@@ -67,17 +67,17 @@ impl Publisher {
         }
     }
 
-    /// Returns [`Publisher`] as [`String`]
+    /// Returns [`Publisher`] as [String]
     pub fn get_as_string(self) -> String {
         self.0
     }
 
-    /// Returns [`Publisher`] as &[`String`]
+    /// Returns [`Publisher`] as &[String]
     pub fn get_as_ref_string(&self) -> &String {
         &self.0
     }
 
-    /// Returns [`Publisher`] as &mut [`String`]
+    /// Returns [`Publisher`] as &mut [String]
     pub fn get_as_ref_mut_string(&mut self) -> &mut String {
         &mut self.0
     }
