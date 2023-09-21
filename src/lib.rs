@@ -9,8 +9,9 @@ use std::{
     fmt::{Debug, Display, Formatter}
 };
 use serde::{Deserialize, Serialize};
-use crate::{
-    helpers::{check_character_collision, remove_first_and_last_characters},
+use crate::helpers::{check_character_collision, remove_first_and_last_characters};
+
+pub use self::{
     compare::Compare,
     version::Version,
     publisher::Publisher
