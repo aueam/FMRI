@@ -1,8 +1,10 @@
 # FMRI
 
-Implementation of IPS package identifier - FMRI. Provides FMRI, Publisher and Version types
+Implementation of IPS package identifier - FMRI. Provides FMRI, Publisher and Version types.
 
 ## Example
+
+This example shows some of the functionality of this library.
 
 ```rust
 use std::cmp::Ordering;
@@ -20,6 +22,8 @@ fn main() {
 
     // create new publisher
     let publisher = Publisher::new("test".to_owned());
+    
+    // change publisher of FMRI
     fmri.change_publisher(publisher);
 
     // remove version
@@ -30,7 +34,7 @@ fn main() {
     // get package name from fmri
     assert_eq!(fmri.get_package_name_as_string(), "system/library");
 
-    // compare two fmris
+    // compare two FMRIs
     let fmri_a = FMRI::parse_raw(&"test@1".to_owned());
     let fmri_b = FMRI::parse_raw(&"test@2".to_owned());
 
