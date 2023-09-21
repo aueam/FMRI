@@ -27,7 +27,7 @@ impl FMRIList {
         &self.0
     }
 
-    /// Returns [FMRIList`] as &mut [`Vec`]<[`FMRI`]>
+    /// Returns [`FMRIList`] as &mut [`Vec`]<[`FMRI`]>
     pub fn get_ref_mut(&mut self) -> &mut Vec<FMRI> {
         &mut self.0
     }
