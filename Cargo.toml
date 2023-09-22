@@ -7,7 +7,7 @@ description = "Implementation of IPS package identifier - FMRI"
 readme = "README.md"
 license = "MIT"
 repository = "https://github.com/aueam/FMRI"
-keywords = ["fmri", "pkg", "lib"]
+keywords = ["lib", "pkg", "oi", "fmri"]
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }
