@@ -1,4 +1,4 @@
-# FMRI
+# fmri
 
 Implementation of IPS package identifier - FMRI.
 Provides FMRI, Publisher, Version structs and version comparing.
