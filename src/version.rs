@@ -39,7 +39,7 @@ pub struct Version {
 impl Version {
     /// Parses "@2.1.1,5.11-2017.0.0.0:20171212T185746Z" into [`Version`]
     pub fn new(mut version: String) -> Self {
-        if !version.starts_with("@") {
+        if !version.starts_with('@') {
             version.insert(0, '@')
         }
 
@@ -69,7 +69,7 @@ impl Version {
         let mut raw_fmri = raw_fmri.trim_start_matches("fmri=").to_owned();
 
         // check if raw_fmri has version
-        return match raw_fmri.find('@') {
+        match raw_fmri.find('@') {
             None => None,
             Some(position) => {
                 let version = raw_fmri.split_off(position);
