@@ -63,7 +63,7 @@ impl Segments {
             }
         }
 
-        return match segment_starts_with {
+        match segment_starts_with {
             '@' => Self::ComponentVersion(Segment::from_string(end.clone())),
             ',' => Self::BuildVersion(Segment::from_string(end.clone())),
             '-' => Self::BranchVersion(Segment::from_string(end.clone())),
