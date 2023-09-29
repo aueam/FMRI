@@ -103,30 +103,30 @@ impl Compare for Segment {
         match self.get_ref().len().cmp(&comparing_to.get_ref().len()) {
             Ordering::Greater => {
                 for (index, num) in comparing_to.get_ref().iter().enumerate() {
-                    match num.cmp(&comparing_to.get_ref()[index]) {
-                        Ordering::Less => return Ordering::Greater,
-                        Ordering::Equal => {}
-                        Ordering::Greater => return Ordering::Less
+                    if num > &self.get_ref()[index] {
+                        return Ordering::Less;
+                    } else if num < &self.get_ref()[index] {
+                        return Ordering::Greater;
                     }
                 }
                 Ordering::Greater
             }
             Ordering::Less => {
                 for (index, num) in self.get_ref().iter().enumerate() {
-                    match num.cmp(&comparing_to.get_ref()[index]) {
-                        Ordering::Less => return Ordering::Less,
-                        Ordering::Equal => {}
-                        Ordering::Greater => return Ordering::Greater
+                    if num > &comparing_to.get_ref()[index] {
+                        return Ordering::Greater;
+                    } else if num < &comparing_to.get_ref()[index] {
+                        return Ordering::Less;
                     }
                 }
                 Ordering::Less
             }
             Ordering::Equal => {
                 for (index, num) in self.get_ref().iter().enumerate() {
-                    match num.cmp(&comparing_to.get_ref()[index]) {
-                        Ordering::Less => return Ordering::Less,
-                        Ordering::Equal => {}
-                        Ordering::Greater => return Ordering::Greater
+                    if num > &comparing_to.get_ref()[index] {
+                        return Ordering::Greater;
+                    } else if num < &comparing_to.get_ref()[index] {
+                        return Ordering::Less;
                     }
                 }
                 Ordering::Equal
