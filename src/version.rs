@@ -175,6 +175,6 @@ impl Display for Version {
 /// Implementation of [`Debug`] for [`Version`]
 impl Debug for Version {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", format!("{}", self)) // ?
+        write!(f, "{}", self)
     }
 }
