@@ -244,7 +244,7 @@ impl Display for FMRI {
         if self.has_publisher() {
             string.push_str("pkg://");
             string.push_str(self.get_publisher_as_ref_string().unwrap());
-            string.push_str("/");
+            string.push('/');
         } else {
             string.push_str("pkg:/");
         }
