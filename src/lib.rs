@@ -66,12 +66,12 @@ impl FMRI {
     /// FMRI::parse_raw(&"fmri=test@1-1:20220913T082027Z".to_owned());
     /// FMRI::parse_raw(&"pkg://publisher/test@1-1:20220913T082027Z".to_owned());
     /// ```
-    pub fn parse_raw(raw_fmri: &String) -> Self {
+    pub fn parse_raw(raw_fmri: &str) -> Self {
         let mut publisher: Option<Publisher> = None;
         let mut version: Option<Version> = None;
-        let mut package_name: String = raw_fmri.clone().trim_start_matches("fmri=").to_owned();
+        let mut package_name: String = raw_fmri.to_owned().trim_start_matches("fmri=").to_owned();
 
-        match Publisher::parse_publisher_from_raw_fmri(raw_fmri.clone()) {
+        match Publisher::parse_publisher_from_raw_fmri(raw_fmri.to_owned()) {
             None => {
                 package_name = package_name.trim_start_matches("pkg:/").to_owned();
             }
@@ -82,7 +82,7 @@ impl FMRI {
             }
         }
 
-        match Version::parse_version_from_raw_fmri(raw_fmri.clone()) {
+        match Version::parse_version_from_raw_fmri(raw_fmri.to_owned()) {
             None => {}
             Some(v) => {
                 version = Some(v);
