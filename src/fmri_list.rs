@@ -109,3 +109,10 @@ impl Debug for FMRIList {
         write!(f, "{}", string)
     }
 }
+
+/// Implementation of [`Default`] for [`FMRIList`]
+impl Default for FMRIList {
+    fn default() -> Self {
+        Self::new()
+    }
+}
