@@ -262,6 +262,6 @@ impl Display for FMRI {
 /// Implementation of [`Debug`] for [`FMRI`]
 impl Debug for FMRI {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", format!("{}", self))
+        write!(f, "{}", self)
     }
 }
