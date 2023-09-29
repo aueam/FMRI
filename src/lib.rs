@@ -77,7 +77,7 @@ impl FMRI {
             }
             Some(p) => {
                 publisher = Some(p);
-                let (_, end_str) = package_name.trim_start_matches("pkg://").split_once("/").expect("Fmri must contain \"/package_name\"");
+                let (_, end_str) = package_name.trim_start_matches("pkg://").split_once('/').expect("Fmri must contain \"/package_name\"");
                 package_name = end_str.to_owned()
             }
         }
