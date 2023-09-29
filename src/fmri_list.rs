@@ -75,7 +75,7 @@ impl Display for FMRIList {
         let fmris = self.get_ref();
         let len = fmris.len() - 1;
         for (index, fmri) in fmris.iter().enumerate() {
-            string.push_str(&*format!("{}", fmri));
+            string.push_str(&format!("{}", fmri));
 
             if index < len {
                 string.push_str(", ");
@@ -103,7 +103,7 @@ impl Debug for FMRIList {
         let mut string: String = "".to_owned();
 
         for (index, fmri) in self.get_ref().iter().enumerate() {
-            string.push_str(&*format!("{}. {}\n", index + 1, fmri));
+            string.push_str(&format!("{}. {}\n", index + 1, fmri));
         }
 
         write!(f, "{}", string)
