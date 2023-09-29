@@ -86,7 +86,7 @@ impl FMRI {
             None => {}
             Some(v) => {
                 version = Some(v);
-                let (start_str, _) = package_name.split_once("@").expect("error");
+                let (start_str, _) = package_name.split_once('@').expect("error");
                 package_name = start_str.to_owned()
             }
         }
