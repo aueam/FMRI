@@ -149,22 +149,22 @@ impl Display for Version {
         let string: &mut String = &mut "".to_string();
 
         if let Segments::ComponentVersion(segment) = &self.component_version {
-            string.push_str(&"@".to_string());
+            string.push('@');
             string.push_str(&segment.as_string());
         }
 
         if let Segments::BuildVersion(segment) = &self.build_version {
-            string.push_str(&",".to_string());
+            string.push(',');
             string.push_str(&segment.as_string());
         }
 
         if let Segments::BranchVersion(segment) = &self.branch_version {
-            string.push_str(&"-".to_string());
+            string.push('-');
             string.push_str(&segment.as_string());
         }
 
         if let Segments::Timestamp(segment) = &self.timestamp {
-            string.push_str(&":".to_string());
+            string.push(':');
             string.push_str(segment);
         }
 
