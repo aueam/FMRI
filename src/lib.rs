@@ -232,7 +232,7 @@ impl Compare for FMRI {
             .version
             .as_ref()
             .unwrap()
-            .compare(&comparing_to.version.as_ref().unwrap())
+            .compare(comparing_to.version.as_ref().unwrap())
     }
 }
 
