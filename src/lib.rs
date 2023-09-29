@@ -149,7 +149,7 @@ impl FMRI {
 
     /// Checks if [`FMRI`] has [`Publisher`]
     pub fn has_publisher(&self) -> bool {
-        if self.publisher == None {
+        if self.publisher.is_none() {
             return false;
         }
         true
@@ -190,7 +190,7 @@ impl FMRI {
 
     /// Checks if [`FMRI`] has [`Version`]
     pub fn has_version(&self) -> bool {
-        if self.version == None {
+        if self.version.is_none() {
             return false;
         }
         true
