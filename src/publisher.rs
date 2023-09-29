@@ -61,7 +61,7 @@ impl Publisher {
                     panic!("wrong position of starting \"pkg://\" pattern ({})", position)
                 }
 
-                let (publisher, _) = raw_fmri.trim_start_matches("pkg://").split_once("/").expect("Fmri must contain \"/package_name\"");
+                let (publisher, _) = raw_fmri.trim_start_matches("pkg://").split_once('/').expect("Fmri must contain \"/package_name\"");
                 Some(Self::new(publisher.to_owned()))
             }
         }
