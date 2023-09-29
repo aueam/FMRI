@@ -109,7 +109,7 @@ impl Compare for Version {
     fn compare(&self, comparing_to: &Self) -> Ordering {
         if let Segments::ComponentVersion(self_segment) = &self.component_version {
             if let Segments::ComponentVersion(comparing_to_segment) = &comparing_to.component_version {
-                match self_segment.compare(&comparing_to_segment) {
+                match self_segment.compare(comparing_to_segment) {
                     Ordering::Greater => { return Ordering::Greater; }
                     Ordering::Less => { return Ordering::Less; }
                     Ordering::Equal => { }
@@ -119,7 +119,7 @@ impl Compare for Version {
 
         if let Segments::BuildVersion(self_segment) = &self.build_version {
             if let Segments::BuildVersion(comparing_to_segment) = &comparing_to.build_version {
-                match self_segment.compare(&comparing_to_segment) {
+                match self_segment.compare(comparing_to_segment) {
                     Ordering::Greater => { return Ordering::Greater; }
                     Ordering::Less => { return Ordering::Less; }
                     Ordering::Equal => { }
@@ -129,7 +129,7 @@ impl Compare for Version {
 
         if let Segments::BranchVersion(self_segment) = &self.branch_version {
             if let Segments::BranchVersion(comparing_to_segment) = &comparing_to.branch_version {
-                match self_segment.compare(&comparing_to_segment) {
+                match self_segment.compare(comparing_to_segment) {
                     Ordering::Greater => { return Ordering::Greater; }
                     Ordering::Less => { return Ordering::Less; }
                     Ordering::Equal => { }
