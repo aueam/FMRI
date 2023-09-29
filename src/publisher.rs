@@ -93,6 +93,6 @@ impl Display for Publisher {
 /// Implementation of [`Debug`] for [`Publisher`]
 impl Debug for Publisher {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", format!("{}", self))
+        write!(f, "{}", self)
     }
 }
