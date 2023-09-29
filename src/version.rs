@@ -69,7 +69,7 @@ impl Version {
         let mut raw_fmri = raw_fmri.trim_start_matches("fmri=").to_owned();
 
         // check if raw_fmri has version
-        return match raw_fmri.find("@") {
+        return match raw_fmri.find('@') {
             None => None,
             Some(position) => {
                 let version = raw_fmri.split_off(position);
