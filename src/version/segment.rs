@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 use crate::{
     FMRI,
     compare::Compare,
-    version::Version
+    version::Version,
 };
 
 /// [`Segment`] is a part of [`Version`] in [`FMRI`]
@@ -30,25 +30,26 @@ pub struct Segment(Vec<i32>);
 impl Segment {
     /// Parse "1.2.3" into [`Segment`]
     pub fn from_string(segment: String) -> Self {
-        let str_vec: Vec<&str> = segment.split(".").collect();
+        let str_vec: Vec<&str> = segment.split('.').collect();
 
         Self(
             str_vec
                 .iter()
-                .map(|&s| s.parse::<i32>().expect(&format!("invalid character in {}", s)))
-                .collect()
+                .map(
+                    |&s| s.parse::<i32>().unwrap_or_else(|_| panic!("invalid character in {}", s))
+                ).collect()
         )
     }
 
     /// Returns [`Segment`] as [String] ("1.2.3")
     pub fn as_string(&self) -> String {
-        let mut string: &mut String = &mut "".to_owned();
+        let string: &mut String = &mut "".to_owned();
 
         for (index, segment) in self.get_ref().iter().enumerate() {
             string.push_str(&segment.to_string() as &str);
 
             if index + 1 != self.get_ref().len() {
-                string.push_str(".");
+                string.push('.');
             }
         }
 
@@ -71,6 +72,7 @@ impl Segment {
     }
 }
 
+/// TODO: impl Ord
 /// Implementation of [`Compare`] for [`Segment`]
 impl Compare for Segment {
     /// Compares version segments
@@ -98,38 +100,38 @@ impl Compare for Segment {
     /// assert_eq!(a.compare(&b), Ordering::Less);
     /// ```
     fn compare(&self, comparing_to: &Self) -> Ordering {
-        return match self.get_ref().len().cmp(&comparing_to.get_ref().len()) {
+        match self.get_ref().len().cmp(&comparing_to.get_ref().len()) {
             Ordering::Greater => {
                 for (index, num) in comparing_to.get_ref().iter().enumerate() {
-                    if num > &self.get_ref()[index] {
-                        return Ordering::Less;
-                    } else if num < &self.get_ref()[index] {
-                        return Ordering::Greater;
+                    match num.cmp(&comparing_to.get_ref()[index]) {
+                        Ordering::Less => return Ordering::Greater,
+                        Ordering::Equal => {}
+                        Ordering::Greater => return Ordering::Less
                     }
                 }
                 Ordering::Greater
             }
             Ordering::Less => {
                 for (index, num) in self.get_ref().iter().enumerate() {
-                    if num > &comparing_to.get_ref()[index] {
-                        return Ordering::Greater;
-                    } else if num < &comparing_to.get_ref()[index] {
-                        return Ordering::Less;
+                    match num.cmp(&comparing_to.get_ref()[index]) {
+                        Ordering::Less => return Ordering::Less,
+                        Ordering::Equal => {}
+                        Ordering::Greater => return Ordering::Greater
                     }
                 }
                 Ordering::Less
             }
             Ordering::Equal => {
                 for (index, num) in self.get_ref().iter().enumerate() {
-                    if num > &comparing_to.get_ref()[index] {
-                        return Ordering::Greater;
-                    } else if num < &comparing_to.get_ref()[index] {
-                        return Ordering::Less;
+                    match num.cmp(&comparing_to.get_ref()[index]) {
+                        Ordering::Less => return Ordering::Less,
+                        Ordering::Equal => {}
+                        Ordering::Greater => return Ordering::Greater
                     }
                 }
                 Ordering::Equal
             }
-        };
+        }
     }
 }
 
