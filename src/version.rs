@@ -3,7 +3,7 @@ use std::fmt::{Debug, Display, Formatter};
 
 use serde::{Deserialize, Serialize};
 
-use crate::{FMRI, version::segments::Segments};
+use crate::{version::segments::Segments, FMRI};
 
 pub mod segment;
 pub mod segments;
@@ -34,17 +34,21 @@ pub struct Version {
 
 impl Version {
     /// Parses "@2.1.1,5.11-2017.0.0.0:20171212T185746Z" into [`Version`]
-    pub fn new(mut version: String) -> Self {
+    ///
+    /// # Error
+    ///
+    /// Returns a string with error message if one of the segments is invalid
+    pub fn new(mut version: String) -> Result<Self, String> {
         if !version.starts_with('@') {
             version.insert(0, '@')
         }
 
-        Self {
-            component_version: Segments::get_segment_from_string(version.clone(), '@'),
-            build_version: Segments::get_segment_from_string(version.clone(), ','),
-            branch_version: Segments::get_segment_from_string(version.clone(), '-'),
-            timestamp: Segments::get_segment_from_string(version.clone(), ':'),
-        }
+        Ok(Self {
+            component_version: Segments::get_segment_from_string(version.clone(), '@')?,
+            build_version: Segments::get_segment_from_string(version.clone(), ',')?,
+            branch_version: Segments::get_segment_from_string(version.clone(), '-')?,
+            timestamp: Segments::get_segment_from_string(version.clone(), ':')?,
+        })
     }
 
     /// Parses [`Version`] from raw [`FMRI`]
@@ -53,24 +57,27 @@ impl Version {
     ///
     /// ```
     /// use fmri::version::Version;
-    /// let version = Version::parse_version_from_raw_fmri("fmri=pkg:/image/library/libpng16@1.6.34-2018.0.0.0".to_owned()).unwrap();
-    /// assert_eq!(version, Version::new("@1.6.34-2018.0.0.0".to_owned()));
+    /// let version = Version::parse_version_from_raw_fmri("fmri=pkg:/image/library/libpng16@1.6.34-2018.0.0.0".to_owned()).unwrap().unwrap();
+    /// assert_eq!(version, Version::new("@1.6.34-2018.0.0.0".to_owned()).unwrap());
     ///
-    /// let version = Version::parse_version_from_raw_fmri("fmri=pkg:/image/library/libpng16".to_owned());
+    /// let version = Version::parse_version_from_raw_fmri("fmri=pkg:/image/library/libpng16".to_owned()).unwrap();
     /// assert_eq!(version, None);
     /// ```
     ///
-    pub fn parse_version_from_raw_fmri(raw_fmri: String) -> Option<Self> {
+    /// # Error
+    ///
+    /// Returns a string with error message if one of the segments is invalid
+    pub fn parse_version_from_raw_fmri(raw_fmri: String) -> Result<Option<Self>, String> {
         // remove "fmri=" if present
         let mut raw_fmri = raw_fmri.trim_start_matches("fmri=").to_owned();
 
         // check if raw_fmri has version
         match raw_fmri.find('@') {
-            None => None,
+            None => Ok(None),
             Some(position) => {
                 let version = raw_fmri.split_off(position);
 
-                Some(Self::new(version.to_owned()))
+                Ok(Some(Self::new(version.to_owned())?))
             }
         }
     }

@@ -57,10 +57,14 @@ impl FMRI {
     ///
     /// ```
     /// use fmri::FMRI;
-    /// FMRI::parse_raw(&"fmri=test@1-1:20220913T082027Z".to_owned());
-    /// FMRI::parse_raw(&"pkg://publisher/test@1-1:20220913T082027Z".to_owned());
+    /// FMRI::parse_raw(&"fmri=test@1-1:20220913T082027Z".to_owned()).unwrap();
+    /// FMRI::parse_raw(&"pkg://publisher/test@1-1:20220913T082027Z".to_owned()).unwrap();
     /// ```
-    pub fn parse_raw(raw_fmri: &str) -> Self {
+    ///
+    /// # Error
+    ///
+    /// Returns a string with error message if one of the segments is invalid
+    pub fn parse_raw(raw_fmri: &str) -> Result<Self, String> {
         let mut publisher: Option<Publisher> = None;
         let mut version: Option<Version> = None;
         let mut package_name: String = raw_fmri.to_owned().trim_start_matches("fmri=").to_owned();
@@ -80,12 +84,13 @@ impl FMRI {
         }
 
         match Version::parse_version_from_raw_fmri(raw_fmri.to_owned()) {
-            None => {}
-            Some(v) => {
+            Ok(None) => {}
+            Ok(Some(v)) => {
                 version = Some(v);
                 let (start_str, _) = package_name.split_once('@').expect("error");
                 package_name = start_str.to_owned()
             }
+            Err(e) => return Err(e),
         }
 
         let mut fmri = Self::new_from_package_name(package_name);
@@ -95,7 +100,7 @@ impl FMRI {
         if let Some(v) = version {
             fmri.change_version(v);
         }
-        fmri
+        Ok(fmri)
     }
 
     /// Checks if package names are same

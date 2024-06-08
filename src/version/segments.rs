@@ -1,10 +1,8 @@
 use std::fmt::{Debug, Display, Formatter};
+
 use serde::{Deserialize, Serialize};
-use crate::{
-    FMRI,
-    version::segment::Segment,
-    version::Version
-};
+
+use crate::{FMRI, version::segment::Segment, version::Version};
 
 /// [`Segments`] is a part of [`Version`] in [`FMRI`]
 ///
@@ -31,23 +29,28 @@ pub enum Segments {
 }
 
 impl Segments {
-    /// Separates [`Segment`] from from inputted [String]
+    /// Separates [`Segment`] from inputted [String]
     ///
     /// # Example
     ///
     /// ```
     /// use fmri::version::segments::Segments;
     /// assert_eq!(
-    ///     Segments::get_segment_from_string("@2.1.1-2018.0.0.0".to_string(), ','),
+    ///     Segments::get_segment_from_string("@2.1.1-2018.0.0.0".to_string(), ',').unwrap(),
     ///     Segments::None
     /// );
     /// ```
-    pub fn get_segment_from_string(mut string: String, segment_starts_with: char) -> Self {
+    ///
+    /// # Error
+    ///
+    /// Returns a string with error message if segments is invalid
+    pub fn get_segment_from_string(
+        mut string: String,
+        segment_starts_with: char,
+    ) -> Result<Self, String> {
         let mut end = match string.find(segment_starts_with) {
-            None => return Self::None,
-            Some(position) => {
-                string.split_off(position + 1)
-            }
+            None => return Ok(Self::None),
+            Some(position) => string.split_off(position + 1),
         };
 
         for (index, c) in end.clone().chars().enumerate() {
@@ -63,13 +66,13 @@ impl Segments {
             }
         }
 
-        match segment_starts_with {
-            '@' => Self::ComponentVersion(Segment::from_string(end.clone())),
-            ',' => Self::BuildVersion(Segment::from_string(end.clone())),
-            '-' => Self::BranchVersion(Segment::from_string(end.clone())),
+        Ok(match segment_starts_with {
+            '@' => Self::ComponentVersion(Segment::try_from(end.clone())?),
+            ',' => Self::BuildVersion(Segment::try_from(end.clone())?),
+            '-' => Self::BranchVersion(Segment::try_from(end.clone())?),
             ':' => Self::Timestamp(end.clone()),
-            _ => Self::None
-        }
+            _ => Self::None,
+        })
     }
 }
 

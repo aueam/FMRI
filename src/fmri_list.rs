@@ -1,5 +1,7 @@
 use std::fmt::{Debug, Display, Formatter};
+
 use serde::{Deserialize, Serialize};
+
 use crate::FMRI;
 
 /// [`FMRIList`] contains more [`FMRIs`][FMRI]
@@ -63,9 +65,9 @@ impl FMRIList {
 /// ```rust
 /// use fmri::{FMRI, FMRIList};
 /// let mut  fmri_list = FMRIList::new();
-/// fmri_list.add(FMRI::parse_raw(&"test".to_owned()));
-/// fmri_list.add(FMRI::parse_raw(&"abc".to_owned()));
-/// fmri_list.add(FMRI::parse_raw(&"fmri".to_owned()));
+/// fmri_list.add(FMRI::parse_raw(&"test".to_owned()).unwrap());
+/// fmri_list.add(FMRI::parse_raw(&"abc".to_owned()).unwrap());
+/// fmri_list.add(FMRI::parse_raw(&"fmri".to_owned()).unwrap());
 /// assert_eq!(format!("{}", fmri_list), "pkg:/test, pkg:/abc, pkg:/fmri");
 /// ```
 impl Display for FMRIList {
@@ -93,9 +95,9 @@ impl Display for FMRIList {
 /// ```rust
 /// use fmri::{FMRI, FMRIList};
 /// let mut  fmri_list = FMRIList::new();
-/// fmri_list.add(FMRI::parse_raw(&"test".to_owned()));
-/// fmri_list.add(FMRI::parse_raw(&"abc".to_owned()));
-/// fmri_list.add(FMRI::parse_raw(&"fmri".to_owned()));
+/// fmri_list.add(FMRI::parse_raw(&"test".to_owned()).unwrap());
+/// fmri_list.add(FMRI::parse_raw(&"abc".to_owned()).unwrap());
+/// fmri_list.add(FMRI::parse_raw(&"fmri".to_owned()).unwrap());
 /// assert_eq!(format!("{:?}", fmri_list), "1. pkg:/test\n2. pkg:/abc\n3. pkg:/fmri\n");
 /// ```
 impl Debug for FMRIList {
