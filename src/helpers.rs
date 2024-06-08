@@ -1,10 +1,11 @@
-/// Checks if inserted string contains one of "bad" characters
-pub fn check_character_collision(string: &str) {
+/// Checks if inserted string contains @
+pub fn check_character_collision(string: &str) -> Result<(), String> {
     for char in string.chars() {
         if char == '@' {
-            panic!("String cannot contain char \'@\'")
+            return Err(String::from("String cannot contain char \'@\'"));
         }
     }
+    Ok(())
 }
 
 /// Removes first and last characters if it is inputted character

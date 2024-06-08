@@ -36,19 +36,19 @@ pub struct FMRI {
 
 impl FMRI {
     /// Returns [`FMRI`] with given package name
-    pub fn new_from_package_name(mut package_name: String) -> Self {
+    pub fn new_from_package_name(mut package_name: String) -> Result<Self, String> {
         if package_name.is_empty() {
             panic!("package name can't be empty")
         }
 
-        check_character_collision(&package_name);
+        check_character_collision(&package_name)?;
         package_name = remove_first_and_last_characters(&package_name, '/').to_owned();
 
-        Self {
+        Ok(Self {
             publisher: None,
             package_name,
             version: None,
-        }
+        })
     }
 
     /// Returns [`FMRI`] from raw fmri
@@ -70,10 +70,10 @@ impl FMRI {
         let mut package_name: String = raw_fmri.to_owned().trim_start_matches("fmri=").to_owned();
 
         match Publisher::parse_publisher_from_raw_fmri(raw_fmri.to_owned()) {
-            None => {
+            Ok(None) => {
                 package_name = package_name.trim_start_matches("pkg:/").to_owned();
             }
-            Some(p) => {
+            Ok(Some(p)) => {
                 publisher = Some(p);
                 let (_, end_str) = package_name
                     .trim_start_matches("pkg://")
@@ -81,6 +81,7 @@ impl FMRI {
                     .expect("Fmri must contain \"/package_name\"");
                 package_name = end_str.to_owned()
             }
+            Err(e) => return Err(e),
         }
 
         match Version::parse_version_from_raw_fmri(raw_fmri.to_owned()) {
@@ -93,7 +94,7 @@ impl FMRI {
             Err(e) => return Err(e),
         }
 
-        let mut fmri = Self::new_from_package_name(package_name);
+        let mut fmri = Self::new_from_package_name(package_name)?;
         if let Some(p) = publisher {
             fmri.change_publisher(p);
         }
@@ -136,10 +137,7 @@ impl FMRI {
     }
 
     pub fn has_publisher(&self) -> bool {
-        if self.publisher.is_none() {
-            return false;
-        }
-        true
+        !self.publisher.is_none()
     }
 
     pub fn change_publisher(&mut self, publisher: Publisher) {
@@ -211,9 +209,9 @@ impl Display for FMRI {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut string: String = "".to_owned();
 
-        if self.has_publisher() {
+        if let Some(publisher) = self.get_publisher_as_ref_string() {
             string.push_str("pkg://");
-            string.push_str(self.get_publisher_as_ref_string().unwrap());
+            string.push_str(publisher);
             string.push('/');
         } else {
             string.push_str("pkg:/");
@@ -221,8 +219,8 @@ impl Display for FMRI {
 
         string.push_str(self.get_package_name_as_ref_string());
 
-        if self.has_version() {
-            string.push_str(&self.get_version_as_string().unwrap());
+        if let Some(version) = self.get_version_as_string() {
+            string.push_str(&version)
         }
 
         write!(f, "{}", string)

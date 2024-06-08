@@ -26,10 +26,10 @@ use crate::{
 pub struct Publisher(String);
 
 impl Publisher {
-    pub fn new(mut publisher: String) -> Self {
-        check_character_collision(&publisher);
+    pub fn new(mut publisher: String) -> Result<Self, String> {
+        check_character_collision(&publisher)?;
         publisher = remove_first_and_last_characters(&publisher, '/').to_owned();
-        Self(publisher)
+        Ok(Self(publisher))
     }
 
     /// Parses [`Publisher`] from raw [`FMRI`], returns [`Publisher`] and [String] after [`Publisher`]
@@ -39,24 +39,24 @@ impl Publisher {
     /// there is publisher
     /// ```
     /// use fmri::publisher::Publisher;
-    /// let publisher = Publisher::parse_publisher_from_raw_fmri("fmri=pkg://publisher/test/test@1-0.1".to_owned()).unwrap();
-    /// assert_eq!(publisher, Publisher::new("publisher".to_owned()));
+    /// let publisher = Publisher::parse_publisher_from_raw_fmri("fmri=pkg://publisher/test/test@1-0.1".to_owned()).unwrap().unwrap();
+    /// assert_eq!(publisher, Publisher::new("publisher".to_owned()).unwrap());
     /// ```
     ///
     /// there isn't publisher
     /// ```
     /// use fmri::publisher::Publisher;
-    /// let publisher = Publisher::parse_publisher_from_raw_fmri("pkg:/test/test@1-0.1".to_owned());
+    /// let publisher = Publisher::parse_publisher_from_raw_fmri("pkg:/test/test@1-0.1".to_owned()).unwrap();
     /// assert_eq!(publisher, None);
     /// ```
     ///
-    pub fn parse_publisher_from_raw_fmri(raw_fmri: String) -> Option<Self> {
+    pub fn parse_publisher_from_raw_fmri(raw_fmri: String) -> Result<Option<Self>, String> {
         // remove "fmri=" if present
         let raw_fmri = raw_fmri.trim_start_matches("fmri=").to_owned();
 
         // check if raw_fmri has publisher
         return match raw_fmri.find("pkg://") {
-            None => None,
+            None => Ok(None),
             Some(position) => {
                 if position != 0 {
                     panic!(
@@ -69,7 +69,7 @@ impl Publisher {
                     .trim_start_matches("pkg://")
                     .split_once('/')
                     .expect("Fmri must contain \"/package_name\"");
-                Some(Self::new(publisher.to_owned()))
+                Ok(Some(Self::new(publisher.to_owned())?))
             }
         };
     }
