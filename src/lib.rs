@@ -111,45 +111,30 @@ impl FMRI {
         false
     }
 
-    /// Checks if package names are not same
-    pub fn package_name_ne(&self, comparing_to: &FMRI) -> bool {
-        if self.get_package_name_as_ref_string() != comparing_to.get_package_name_as_ref_string() {
-            return true;
-        }
-        false
-    }
-
-    /// Returns [`FMRI`] as [String]
     pub fn get_package_name_as_string(self) -> String {
         self.package_name
     }
 
-    /// Returns [`FMRI`] as &[String]
     pub fn get_package_name_as_ref_string(&self) -> &String {
         &self.package_name
     }
 
-    /// Returns [`FMRI`] as &mut [String]
     pub fn get_package_name_as_ref_mut_string(&mut self) -> &mut String {
         &mut self.package_name
     }
 
-    /// Returns [`Publisher`] of [`FMRI`] as [`Publisher`]
     pub fn get_publisher(self) -> Option<Publisher> {
         self.publisher
     }
 
-    /// Returns [`Publisher`] of [`FMRI`] as &[`Publisher`]
     pub fn get_publisher_ref(&self) -> &Option<Publisher> {
         &self.publisher
     }
 
-    /// Returns [`Publisher`] of [`FMRI`] as &mut [`Publisher`]
     pub fn get_publisher_ref_mut(&mut self) -> &mut Option<Publisher> {
         &mut self.publisher
     }
 
-    /// Checks if [`FMRI`] has [`Publisher`]
     pub fn has_publisher(&self) -> bool {
         if self.publisher.is_none() {
             return false;
@@ -157,12 +142,11 @@ impl FMRI {
         true
     }
 
-    /// Changes [`Publisher`] in [`FMRI`]
     pub fn change_publisher(&mut self, publisher: Publisher) {
         self.publisher = Some(publisher);
     }
 
-    /// Returns [`Publisher`] as [`Option`]<&[String]>, returns [`None`] if there isn't [`Publisher`]
+    /// Returns [`None`] if there isn't [`Publisher`]
     pub fn get_publisher_as_ref_string(&self) -> Option<&String> {
         if let Some(publisher) = &self.publisher {
             return Some(publisher.get_as_ref_string());
@@ -170,27 +154,21 @@ impl FMRI {
         None
     }
 
-    /// Removes [`Publisher`] from [`FMRI`]
     pub fn remove_publisher(&mut self) {
         self.publisher = None
     }
 
-    /// Returns [`Version`] of [`FMRI`] as [`Version`]
     pub fn get_version(self) -> Option<Version> {
         self.version
     }
 
-    /// Returns [`Version`] of [`FMRI`] as &[`Version`]
     pub fn get_version_ref(&self) -> &Option<Version> {
         &self.version
     }
-
-    /// Returns [`Version`] of [`FMRI`] as &mut [`Version`]
     pub fn get_version_ref_mut(&mut self) -> &mut Option<Version> {
         &mut self.version
     }
 
-    /// Checks if [`FMRI`] has [`Version`]
     pub fn has_version(&self) -> bool {
         if self.version.is_none() {
             return false;
@@ -198,12 +176,11 @@ impl FMRI {
         true
     }
 
-    /// Changes [`Version`] in [`FMRI`]
     pub fn change_version(&mut self, version: Version) {
         self.version = Some(version)
     }
 
-    /// Returns [`Version`] as [`Option`]<&[String]>, returns [`None`] if there isn't [`Version`]
+    /// Returns [`None`] if there isn't [`Version`]
     pub fn get_version_as_string(&self) -> Option<String> {
         if let Some(version) = &self.version {
             return Some(format!("{}", version));
@@ -211,7 +188,6 @@ impl FMRI {
         None
     }
 
-    /// Removes [`Version`] from [`FMRI`]
     pub fn remove_version(&mut self) -> &mut FMRI {
         self.version = None;
         self
@@ -231,7 +207,6 @@ impl Ord for FMRI {
     }
 }
 
-/// Implementation of [`Display`] for [`FMRI`]
 impl Display for FMRI {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut string: String = "".to_owned();
@@ -254,7 +229,6 @@ impl Display for FMRI {
     }
 }
 
-/// Implementation of [`Debug`] for [`FMRI`]
 impl Debug for FMRI {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self)

@@ -9,37 +9,30 @@ use crate::FMRI;
 pub struct FMRIList(Vec<FMRI>);
 
 impl FMRIList {
-    /// Creates new [`FMRIList`]
     pub fn new() -> Self {
         Self(vec![])
     }
 
-    /// Adds new [`FMRI`] into [`FMRIList`]
     pub fn add(&mut self, fmri: FMRI) {
         self.0.push(fmri)
     }
 
-    /// Returns [`FMRIList`] as [`Vec`]<[`FMRI`]>
     pub fn get(self) -> Vec<FMRI> {
         self.0
     }
 
-    /// Returns [`FMRIList`] as &[`Vec`]<[`FMRI`]>
     pub fn get_ref(&self) -> &Vec<FMRI> {
         &self.0
     }
 
-    /// Returns [`FMRIList`] as &mut [`Vec`]<[`FMRI`]>
     pub fn get_ref_mut(&mut self) -> &mut Vec<FMRI> {
         &mut self.0
     }
 
-    /// Returns length of [`FMRIList`]
     pub fn len(&self) -> usize {
         self.get_ref().len()
     }
 
-    /// Checks if [`FMRIList`] is empty
     pub fn is_empty(&self) -> bool {
         if self.get_ref().len() == 0 {
             return true;
@@ -47,7 +40,6 @@ impl FMRIList {
         false
     }
 
-    /// Checks if [`FMRIList`] has specified [`FMRI`]
     pub fn contains(&self, checking_fmri: &FMRI) -> bool {
         for fmri in self.get_ref() {
             if fmri.package_name_eq(checking_fmri) {
@@ -58,18 +50,6 @@ impl FMRIList {
     }
 }
 
-/// Implementation of [`Display`] for [`FMRIList`]
-///
-/// # Example
-///
-/// ```rust
-/// use fmri::{FMRI, FMRIList};
-/// let mut  fmri_list = FMRIList::new();
-/// fmri_list.add(FMRI::parse_raw(&"test".to_owned()).unwrap());
-/// fmri_list.add(FMRI::parse_raw(&"abc".to_owned()).unwrap());
-/// fmri_list.add(FMRI::parse_raw(&"fmri".to_owned()).unwrap());
-/// assert_eq!(format!("{}", fmri_list), "pkg:/test, pkg:/abc, pkg:/fmri");
-/// ```
 impl Display for FMRIList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut string: String = "".to_owned();
@@ -88,18 +68,6 @@ impl Display for FMRIList {
     }
 }
 
-/// Implementation of [`Debug`] for [`FMRIList`]
-///
-/// # Example
-///
-/// ```rust
-/// use fmri::{FMRI, FMRIList};
-/// let mut  fmri_list = FMRIList::new();
-/// fmri_list.add(FMRI::parse_raw(&"test".to_owned()).unwrap());
-/// fmri_list.add(FMRI::parse_raw(&"abc".to_owned()).unwrap());
-/// fmri_list.add(FMRI::parse_raw(&"fmri".to_owned()).unwrap());
-/// assert_eq!(format!("{:?}", fmri_list), "1. pkg:/test\n2. pkg:/abc\n3. pkg:/fmri\n");
-/// ```
 impl Debug for FMRIList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut string: String = "".to_owned();
@@ -112,7 +80,6 @@ impl Debug for FMRIList {
     }
 }
 
-/// Implementation of [`Default`] for [`FMRIList`]
 impl Default for FMRIList {
     fn default() -> Self {
         Self::new()

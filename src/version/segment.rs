@@ -1,6 +1,8 @@
-use crate::{version::Version, FMRI};
-use serde::{Deserialize, Serialize};
 use std::fmt::{Display, Formatter};
+
+use serde::{Deserialize, Serialize};
+
+use crate::{FMRI, version::Version};
 
 /// [`Segment`] is a part of [`Version`] in [`FMRI`]
 ///
@@ -30,17 +32,14 @@ impl Segment {
             .join(".")
     }
 
-    /// Returns [`Segment`] as [Vec]<[i32]>
     pub fn get(self) -> Vec<i32> {
         self.0
     }
 
-    /// Returns [`Segment`] as &[Vec]<[i32]>
     pub fn get_ref(&self) -> &Vec<i32> {
         &self.0
     }
 
-    /// Returns [`Segment`] as &mut [Vec]<[i32]>
     pub fn get_ref_mut(&mut self) -> &mut Vec<i32> {
         &mut self.0
     }

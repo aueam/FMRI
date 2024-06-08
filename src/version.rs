@@ -123,7 +123,6 @@ impl Ord for Version {
     }
 }
 
-/// Implementation of [`Display`] for [`Version`]
 impl Display for Version {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let string: &mut String = &mut "".to_string();
@@ -152,7 +151,6 @@ impl Display for Version {
     }
 }
 
-/// Implementation of [`Debug`] for [`Version`]
 impl Debug for Version {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self)

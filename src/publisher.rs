@@ -1,8 +1,10 @@
 use std::fmt::{Debug, Display, Formatter};
+
 use serde::{Deserialize, Serialize};
+
 use crate::{
     helpers::{check_character_collision, remove_first_and_last_characters},
-    FMRI
+    FMRI,
 };
 
 /// [`Publisher`] is a part of [`FMRI`]
@@ -24,7 +26,6 @@ use crate::{
 pub struct Publisher(String);
 
 impl Publisher {
-    /// Returns [`Publisher`] from [String]
     pub fn new(mut publisher: String) -> Self {
         check_character_collision(&publisher);
         publisher = remove_first_and_last_characters(&publisher, '/').to_owned();
@@ -58,39 +59,40 @@ impl Publisher {
             None => None,
             Some(position) => {
                 if position != 0 {
-                    panic!("wrong position of starting \"pkg://\" pattern ({})", position)
+                    panic!(
+                        "wrong position of starting \"pkg://\" pattern ({})",
+                        position
+                    )
                 }
 
-                let (publisher, _) = raw_fmri.trim_start_matches("pkg://").split_once('/').expect("Fmri must contain \"/package_name\"");
+                let (publisher, _) = raw_fmri
+                    .trim_start_matches("pkg://")
+                    .split_once('/')
+                    .expect("Fmri must contain \"/package_name\"");
                 Some(Self::new(publisher.to_owned()))
             }
-        }
+        };
     }
 
-    /// Returns [`Publisher`] as [String]
     pub fn get_as_string(self) -> String {
         self.0
     }
 
-    /// Returns [`Publisher`] as &[String]
     pub fn get_as_ref_string(&self) -> &String {
         &self.0
     }
 
-    /// Returns [`Publisher`] as &mut [String]
     pub fn get_as_ref_mut_string(&mut self) -> &mut String {
         &mut self.0
     }
 }
 
-/// Implementation of [`Display`] for [`Publisher`]
 impl Display for Publisher {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "pkg://{}/", self.get_as_ref_string())
     }
 }
 
-/// Implementation of [`Debug`] for [`Publisher`]
 impl Debug for Publisher {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self)

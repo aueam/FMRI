@@ -76,7 +76,6 @@ impl Segments {
     }
 }
 
-/// Implementation of [`Display`] for [`Segments`]
 impl Display for Segments {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.to_owned())
