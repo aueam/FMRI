@@ -1,24 +1,18 @@
-pub mod version;
-pub mod publisher;
-pub mod compare;
-pub mod fmri_list;
-mod helpers;
-#[cfg(test)]
-mod tests;
+use std::cmp::Ordering;
+use std::fmt::{Debug, Display, Formatter};
 
-use std::{
-    cmp::Ordering,
-    fmt::{Debug, Display, Formatter}
-};
 use serde::{Deserialize, Serialize};
+
 use crate::helpers::{check_character_collision, remove_first_and_last_characters};
 
-pub use self::{
-    compare::Compare,
-    version::Version,
-    publisher::Publisher,
-    fmri_list::FMRIList
-};
+pub use self::{fmri_list::FMRIList, publisher::Publisher, version::Version};
+
+pub mod fmri_list;
+mod helpers;
+pub mod publisher;
+#[cfg(test)]
+mod tests;
+pub mod version;
 
 /// [`FMRI`] represents pkg fmri versioning system
 ///
@@ -30,7 +24,7 @@ pub use self::{
 /// pkg://solaris/system/library
 /// pkg://solaris/system/library@0.5.11-0.175.1.0.0.2.1:20120919T082311Z
 /// ```
-#[derive(PartialEq, Serialize, Deserialize, Clone, Ord, Eq, PartialOrd)]
+#[derive(PartialEq, Serialize, Deserialize, Clone, Eq)]
 pub struct FMRI {
     /// Publisher is optional
     publisher: Option<Publisher>,
@@ -77,7 +71,10 @@ impl FMRI {
             }
             Some(p) => {
                 publisher = Some(p);
-                let (_, end_str) = package_name.trim_start_matches("pkg://").split_once('/').expect("Fmri must contain \"/package_name\"");
+                let (_, end_str) = package_name
+                    .trim_start_matches("pkg://")
+                    .split_once('/')
+                    .expect("Fmri must contain \"/package_name\"");
                 package_name = end_str.to_owned()
             }
         }
@@ -216,23 +213,16 @@ impl FMRI {
     }
 }
 
-/// Implementation of [`Compare`] for [`FMRI`]
-impl Compare for FMRI {
-    /// Compares [`Versions`][`Version`] of [`FMRIs`][FMRI]
-    fn compare(&self, comparing_to: &Self) -> Ordering {
-        if self.package_name_ne(comparing_to) {
-            panic!("comparing FMRIs doesn't have same package names")
-        }
+impl PartialOrd<Self> for FMRI {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}
 
-        if !self.has_version() || !comparing_to.has_version() {
-            return Ordering::Equal;
-        }
-
-        self
-            .version
-            .as_ref()
-            .unwrap()
-            .compare(comparing_to.version.as_ref().unwrap())
+impl Ord for FMRI {
+    /// Compares versions of FMRI
+    fn cmp(&self, other: &Self) -> Ordering {
+        self.version.cmp(&other.version)
     }
 }
 

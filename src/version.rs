@@ -1,16 +1,12 @@
+use std::cmp::Ordering;
+use std::fmt::{Debug, Display, Formatter};
+
+use serde::{Deserialize, Serialize};
+
+use crate::{FMRI, version::segments::Segments};
+
 pub mod segment;
 pub mod segments;
-
-use std::{
-    cmp::Ordering,
-    fmt::{Debug, Display, Formatter}
-};
-use serde::{Deserialize, Serialize};
-use crate::{
-    FMRI,
-    compare::Compare,
-    version::segments::Segments
-};
 
 /// [`Version`] is a part of [`FMRI`]
 ///
@@ -25,7 +21,7 @@ use crate::{
 /// ```
 ///
 /// `* = continues package name`
-#[derive(PartialEq, Serialize, Deserialize, Clone, Ord, Eq, PartialOrd)]
+#[derive(Serialize, Deserialize, Clone, PartialEq, Eq)]
 pub struct Version {
     component_version: Segments,
     /// Build_version is optional
@@ -80,64 +76,41 @@ impl Version {
     }
 }
 
-impl Compare for Version {
-    /// Compares versions, ignores a segment if one of them doesn't have it
-    ///
-    /// Ordering::Greater == self is newer<br>
-    /// Ordering::Less == self is older<br>
-    /// Ordering::Equal == versions are same<br>
-    ///
-    /// # examples
-    ///
-    /// ```
-    /// use std::cmp::Ordering;
-    /// use fmri::compare::Compare;
-    /// use fmri::version::Version;
-    ///
-    /// let a = Version::new("2.1.1,5.11-2017.0.0.0:20171212T185746Z".to_owned());
-    /// let b = Version::new("2.1.1,5.11-2017.0.0.0:20171212T185746Z".to_owned());
-    /// assert_eq!(a.compare(&b), Ordering::Equal);
-    ///
-    /// let a = Version::new("2.1.1,5.11-2018.0.0.0:20171212T185746Z".to_owned());
-    /// let b = &Version::new("2.1.1,5.11-2017.0.0.0:20171212T185746Z".to_owned());
-    /// assert_eq!(a.compare(&b), Ordering::Greater);
-    ///
-    /// let a = Version::new("2.1.1,5.11-2017.0.0.0:20171212T185746Z".to_owned());
-    /// let b = &Version::new("2.1.1,5.11-2018.0.0.0:20171212T185746Z".to_owned());
-    /// assert_eq!(a.compare(&b), Ordering::Less);
-    /// ```
-    fn compare(&self, comparing_to: &Self) -> Ordering {
-        if let Segments::ComponentVersion(self_segment) = &self.component_version {
-            if let Segments::ComponentVersion(comparing_to_segment) = &comparing_to.component_version {
-                match self_segment.compare(comparing_to_segment) {
-                    Ordering::Greater => { return Ordering::Greater; }
-                    Ordering::Less => { return Ordering::Less; }
-                    Ordering::Equal => { }
-                }
+impl PartialOrd<Self> for Version {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+impl Ord for Version {
+    fn cmp(&self, other: &Self) -> Ordering {
+        if let (
+            Segments::ComponentVersion(self_segment),
+            Segments::ComponentVersion(other_segment),
+        ) = (&self.component_version, &other.component_version)
+        {
+            if self_segment != other_segment {
+                return self_segment.cmp(other_segment);
             }
         }
 
-        if let Segments::BuildVersion(self_segment) = &self.build_version {
-            if let Segments::BuildVersion(comparing_to_segment) = &comparing_to.build_version {
-                match self_segment.compare(comparing_to_segment) {
-                    Ordering::Greater => { return Ordering::Greater; }
-                    Ordering::Less => { return Ordering::Less; }
-                    Ordering::Equal => { }
-                }
+        if let (Segments::BuildVersion(self_segment), Segments::BuildVersion(other_segment)) =
+            (&self.build_version, &other.build_version)
+        {
+            if self_segment != other_segment {
+                return self_segment.cmp(other_segment);
             }
         }
 
-        if let Segments::BranchVersion(self_segment) = &self.branch_version {
-            if let Segments::BranchVersion(comparing_to_segment) = &comparing_to.branch_version {
-                match self_segment.compare(comparing_to_segment) {
-                    Ordering::Greater => { return Ordering::Greater; }
-                    Ordering::Less => { return Ordering::Less; }
-                    Ordering::Equal => { }
-                }
+        if let (Segments::BranchVersion(self_segment), Segments::BranchVersion(other_segment)) =
+            (&self.branch_version, &other.branch_version)
+        {
+            if self_segment != other_segment {
+                return self_segment.cmp(other_segment);
             }
         }
 
-        // ignoring timestamp cuz timestamp does not determine if the package is newer
+        // ignoring timestamp because timestamp does not determine if the package is newer
 
         Ordering::Equal
     }
