@@ -14,19 +14,19 @@ This example shows some of the functionality of this library.
 use std::cmp::Ordering;
 use fmri::{
     FMRI,
-    compare::Compare,
     publisher::Publisher,
+    version::Version,
 };
 
 fn main() {
     let raw_fmri = &"pkg://publisher/system/library@0.5.11,5.11-0.175.1.0.0.2.1".to_owned();
 
     // create fmri
-    let mut fmri = FMRI::parse_raw(raw_fmri);
+    let mut fmri = FMRI::parse_raw(raw_fmri).unwrap();
 
     // create new publisher
-    let publisher = Publisher::new("test".to_owned());
-    
+    let publisher = Publisher::new("test".to_owned()).unwrap();
+
     // change publisher of FMRI
     fmri.change_publisher(publisher);
 
@@ -39,13 +39,13 @@ fn main() {
     assert_eq!(fmri.get_package_name_as_string(), "system/library");
 
     // prepare two FMRIs
-    let fmri_a = FMRI::parse_raw(&"test@1".to_owned());
-    let fmri_b = FMRI::parse_raw(&"test@2".to_owned());
+    let fmri_a = FMRI::parse_raw(&"test@1".to_owned()).unwrap();
+    let fmri_b = FMRI::parse_raw(&"test@2".to_owned()).unwrap();
 
     // compare them (fmri_a is older than fmri_b)
-    assert_eq!(fmri_a.compare(&fmri_b), Ordering::Less);
+    assert_eq!(fmri_a.cmp(&fmri_b), Ordering::Less);
 
     // print version of fmri_b
-    assert_eq!(fmri_b.get_version(), Some(Version::new("2".to_owned())));
+    assert_eq!(fmri_b.get_version(), Some(Version::new("2".to_owned()).unwrap()));
 }
 ```
