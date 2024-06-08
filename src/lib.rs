@@ -137,7 +137,7 @@ impl FMRI {
     }
 
     pub fn has_publisher(&self) -> bool {
-        !self.publisher.is_none()
+        self.publisher.is_some()
     }
 
     pub fn change_publisher(&mut self, publisher: Publisher) {
