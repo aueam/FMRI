@@ -106,10 +106,8 @@ impl FMRI {
 
     /// Checks if package names are same
     pub fn package_name_eq(&self, comparing_to: &FMRI) -> bool {
-        if self.get_package_name_as_ref_string() == comparing_to.get_package_name_as_ref_string() {
-            return true;
-        }
-        false
+        self.get_package_name_as_ref_string()
+            .eq(comparing_to.get_package_name_as_ref_string())
     }
 
     pub fn get_package_name_as_string(self) -> String {
@@ -168,10 +166,7 @@ impl FMRI {
     }
 
     pub fn has_version(&self) -> bool {
-        if self.version.is_none() {
-            return false;
-        }
-        true
+        self.version.is_some()
     }
 
     pub fn change_version(&mut self, version: Version) {
