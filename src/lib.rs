@@ -1,4 +1,5 @@
 use std::cmp::Ordering;
+use std::cmp::Ordering::Equal;
 use std::fmt::{Debug, Display, Formatter};
 
 use serde::{Deserialize, Serialize};
@@ -196,7 +197,13 @@ impl PartialOrd<Self> for FMRI {
 impl Ord for FMRI {
     /// Compares versions of FMRI
     fn cmp(&self, other: &Self) -> Ordering {
-        self.version.cmp(&other.version)
+        if let Some(ver) = &self.version {
+            if let Some(ver2) = &other.version {
+                return ver.cmp(ver2);
+            }
+        }
+
+        Equal
     }
 }
 
