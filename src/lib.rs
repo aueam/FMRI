@@ -197,13 +197,10 @@ impl PartialOrd<Self> for FMRI {
 impl Ord for FMRI {
     /// Compares versions of FMRI
     fn cmp(&self, other: &Self) -> Ordering {
-        if let Some(ver) = &self.version {
-            if let Some(ver2) = &other.version {
-                return ver.cmp(ver2);
-            }
-        }
-
-        Equal
+        self.version
+            .as_ref()
+            .and_then(|ver| other.version.as_ref().map(|ver2| ver.cmp(ver2)))
+            .unwrap_or(Equal)
     }
 }
 

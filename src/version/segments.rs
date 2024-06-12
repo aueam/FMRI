@@ -2,7 +2,7 @@ use std::fmt::{Debug, Display, Formatter};
 
 use serde::{Deserialize, Serialize};
 
-use crate::{FMRI, version::segment::Segment, version::Version};
+use crate::{version::segment::Segment, version::Version, FMRI};
 
 /// [`Segments`] is a part of [`Version`] in [`FMRI`]
 ///
