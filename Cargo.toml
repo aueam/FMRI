@@ -1,6 +1,6 @@
 [package]
 name = "fmri"
-version = "1.0.1"
+version = "1.0.2"
 edition = "2021"
 authors = ["Maroš Telka <maros@telka.sk>"]
 description = "Implementation of IPS package identifier - FMRI"
