@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 use crate::FMRI;
 
 /// [`FMRIList`] contains more [`FMRIs`][FMRI]
-#[derive(Serialize, Deserialize, Clone, Eq, Ord, PartialEq, PartialOrd)]
+#[derive(Serialize, Deserialize, Clone, Eq, Ord, PartialEq, PartialOrd, Hash)]
 pub struct FMRIList(Vec<FMRI>);
 
 impl FMRIList {

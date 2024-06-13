@@ -25,7 +25,7 @@ pub mod version;
 /// pkg://solaris/system/library
 /// pkg://solaris/system/library@0.5.11-0.175.1.0.0.2.1:20120919T082311Z
 /// ```
-#[derive(PartialEq, Serialize, Deserialize, Clone, Eq)]
+#[derive(PartialEq, Serialize, Deserialize, Clone, Eq, Hash)]
 pub struct FMRI {
     /// Publisher is optional
     publisher: Option<Publisher>,

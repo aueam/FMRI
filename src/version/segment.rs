@@ -19,7 +19,7 @@ use crate::{FMRI, version::Version};
 /// .32.4
 /// 3.a.4
 /// ```
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Segment(Vec<i32>);
 
 impl Segment {

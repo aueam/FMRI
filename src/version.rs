@@ -3,7 +3,7 @@ use std::fmt::{Debug, Display, Formatter};
 
 use serde::{Deserialize, Serialize};
 
-use crate::{version::segments::Segments, FMRI};
+use crate::{FMRI, version::segments::Segments};
 
 pub mod segment;
 pub mod segments;
@@ -21,7 +21,7 @@ pub mod segments;
 /// ```
 ///
 /// `* = continues package name`
-#[derive(Serialize, Deserialize, Clone, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Clone, PartialEq, Eq, Hash)]
 pub struct Version {
     component_version: Segments,
     /// Build_version is optional

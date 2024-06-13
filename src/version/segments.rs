@@ -2,7 +2,7 @@ use std::fmt::{Debug, Display, Formatter};
 
 use serde::{Deserialize, Serialize};
 
-use crate::{version::segment::Segment, version::Version, FMRI};
+use crate::{FMRI, version::segment::Segment, version::Version};
 
 /// [`Segments`] is a part of [`Version`] in [`FMRI`]
 ///
@@ -14,7 +14,7 @@ use crate::{version::segment::Segment, version::Version, FMRI};
 /// ,5.11
 /// :20171212T185746Z
 /// ```
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum Segments {
     /// after '@'
     ComponentVersion(Segment),

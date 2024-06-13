@@ -3,8 +3,8 @@ use std::fmt::{Debug, Display, Formatter};
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    helpers::{check_character_collision, remove_first_and_last_characters},
     FMRI,
+    helpers::{check_character_collision, remove_first_and_last_characters},
 };
 
 /// [`Publisher`] is a part of [`FMRI`]
@@ -22,7 +22,7 @@ use crate::{
 /// ```
 ///
 /// `* = continues package name`
-#[derive(PartialEq, Serialize, Deserialize, Clone, Ord, Eq, PartialOrd)]
+#[derive(PartialEq, Serialize, Deserialize, Clone, Ord, Eq, PartialOrd, Hash)]
 pub struct Publisher(String);
 
 impl Publisher {
